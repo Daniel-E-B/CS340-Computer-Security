@@ -6,7 +6,10 @@
 Getting it to overflow was very easy. I compiled it using the given flags and read the c file and saw this `char password_buffer[16];`. Obviously the input buffer has a length of 16. Interestingly, I found that to break the program, I needed to use >20 characters, instead of >16. I'm not too sure why this is.
 #### patching
 ### breaking with lldb (mac gdb)
-I wanted to try something more challenging, so I looked at the course resources and found this video: <iframe width="640" height="360" src="https://www.youtube.com/embed/VroEiMOJPm8" frameborder="0" allow="autoplay; encrypted-media" ></iframe>
+I wanted to try something more challenging, so I looked at the course resources and found this video:
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VroEiMOJPm8
+" target="_blank"><img src="http://img.youtube.com/vi/VroEiMOJPm8/0.jpg" 
+ width="1280" height="720" border="0" /></a>
 I tried the techniques used in the video, and found two different ways of cracking the program by setting the eax register before a compare instruction. My notes for going through the assembly can be found in `c/authentication think through of dump.rtf` and `c/main think through of dump.rtf`. An rtf viewer is recommended, because without being able to see what is bolded it will be illegible.
   * In my opinion, the best way to create an authentication program that cannot be broken using this method is to do the actual authentication on a remote server, so that any user with malicious intent cannot acces the program that is running the auth checks. Of course things brings in network and encryption security concerns, but it does eliminate the issue that was exploited here.
 

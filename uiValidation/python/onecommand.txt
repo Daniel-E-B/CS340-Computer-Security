@@ -1,0 +1,4 @@
+python -c "favorite = input('What is your favorite number? ')
+print 'I like the number {}, too!'.format(favorite)"
+
+What is your favorite number? __import__('os').system('ls /Applications’)

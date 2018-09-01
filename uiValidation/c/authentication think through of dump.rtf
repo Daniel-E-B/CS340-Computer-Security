@@ -1,0 +1,40 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 a.out`check_authentication:\
+a.out[0x100000e50] <+0>:  push   rbp\
+a.out[0x100000e51] <+1>:  mov    rbp, rsp\
+a.out[0x100000e54] <+4>:  sub    rsp, 0x30\
+a.out[0x100000e58] <+8>:  lea    rax, [rbp - 0x20]\
+a.out[0x100000e5c] <+12>: mov    qword ptr [rbp - 0x8], rdi\
+a.out[0x100000e60] <+16>: mov    dword ptr [rbp - 0xc], 0x0\
+a.out[0x100000e67] <+23>: mov    rsi, qword ptr [rbp - 0x8]\
+a.out[0x100000e6b] <+27>: mov    rdi, rax\
+a.out[0x100000e6e] <+30>: mov    qword ptr [rbp - 0x28], rax\
+a.out[0x100000e72] <+34>: call   0x100000f3a               ; symbol stub for: strcpy\
+a.out[0x100000e77] <+39>: lea    rsi, [rip + 0xf0]         ; "password"\
+a.out[0x100000e7e] <+46>: mov    rdi, qword ptr [rbp - 0x28]\
+a.out[0x100000e82] <+50>: mov    qword ptr [rbp - 0x30], rax\
+a.out[0x100000e86] <+54>: call   0x100000f34               ; symbol stub for: strcmp\
+a.out[0x100000e8b] <+59>: 
+\b cmp
+\b0     eax, 0x0 
+\b  break here by setting eax to 0
+\b0 \
+a.out[0x100000e8e] <+62>: 
+\b jne
+\b0     0x100000e9b               ; <+75>\
+a.out[0x100000e94] <+68>: mov    dword ptr [rbp - 0xc], 0x1 
+\b sets something (probably return thingy to 1 if eax==0
+\b0 \
+a.out[0x100000e9b] <+75>: mov    eax, dword ptr [rbp - 0xc] 
+\b runs if eax!=000
+\b0 \
+a.out[0x100000e9e] <+78>: add    rsp, 0x30\
+a.out[0x100000ea2] <+82>: pop    rbp\
+a.out[0x100000ea3] <+83>: ret\
+a.out[0x100000ea4] <+84>: nop    word ptr cs:[rax + rax]}

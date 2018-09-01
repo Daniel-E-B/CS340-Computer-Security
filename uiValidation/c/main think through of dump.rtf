@@ -1,0 +1,60 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 a.out`main:\
+a.out[0x100000eb0] <+0>:   push   rbp\
+a.out[0x100000eb1] <+1>:   mov    rbp, rsp\
+a.out[0x100000eb4] <+4>:   sub    rsp, 0x20\
+a.out[0x100000eb8] <+8>:   mov    dword ptr [rbp - 0x4], 0x0\
+a.out[0x100000ebf] <+15>:  mov    dword ptr [rbp - 0x8], edi\
+a.out[0x100000ec2] <+18>:  mov    qword ptr [rbp - 0x10], rsi\
+a.out[0x100000ec6] <+22>:  
+\b cmp
+\b0     dword ptr [rbp - 0x8], 0x2 
+\b if argc<2. If no psswd given
+\b0 \
+a.out[0x100000eca] <+26>:  
+\b jge
+\b0     0x100000ee8               ; <+56>\
+a.out[0x100000ed0] <+32>:  lea    rdi, [rip + 0xa0]         ; "Usage: %s <password>\\n"\
+a.out[0x100000ed7] <+39>:  mov    rax, qword ptr [rbp - 0x10]\
+a.out[0x100000edb] <+43>:  mov    rsi, qword ptr [rax]\
+a.out[0x100000ede] <+46>:  mov    al, 0x0\
+a.out[0x100000ee0] <+48>:  call   0x100000f2e               ; symbol stub for: printf\
+a.out[0x100000ee5] <+53>:  mov    dword ptr [rbp - 0x14], eax\
+a.out[0x100000ee8] <+56>:  mov    rax, qword ptr [rbp - 0x10] 
+\b runs if psswd entered
+\b0 \
+a.out[0x100000eec] <+60>:  mov    rdi, qword ptr [rax + 0x8]\
+a.out[0x100000ef0] <+64>:  call   0x100000e50               ; check_authentication 
+\b hack its output into being 1
+\b0 \
+a.out[0x100000ef5] <+69>:  
+\b cmp
+\b0     eax, 0x0 
+\b lol much easier to break by setting eax to anything thats not 0 here\
+
+\b0 a.out[0x100000ef8] <+72>:  
+\b je
+\b0      0x100000f14               ; <+100>\
+a.out[0x100000efe] <+78>:  lea    rdi, [rip + 0x88]         ; "Access Granted.\\n"\
+a.out[0x100000f05] <+85>:  mov    al, 0x0\
+a.out[0x100000f07] <+87>:  call   0x100000f2e               ; symbol stub for: printf\
+a.out[0x100000f0c] <+92>:  mov    dword ptr [rbp - 0x18], eax\
+a.out[0x100000f0f] <+95>:  
+\b jmp
+\b0     0x100000f25               ; <+117>\
+a.out[0x100000f14] <+100>: lea    rdi, [rip + 0x83]         ; "Access Denied.\\n" 
+\b runs if eax is full of 0\'92s
+\b0 \
+a.out[0x100000f1b] <+107>: mov    al, 0x0\
+a.out[0x100000f1d] <+109>: call   0x100000f2e               ; symbol stub for: printf\
+a.out[0x100000f22] <+114>: mov    dword ptr [rbp - 0x1c], eax\
+a.out[0x100000f25] <+117>: mov    eax, dword ptr [rbp - 0x4]\
+a.out[0x100000f28] <+120>: add    rsp, 0x20\
+a.out[0x100000f2c] <+124>: pop    rbp\
+a.out[0x100000f2d] <+125>: ret}

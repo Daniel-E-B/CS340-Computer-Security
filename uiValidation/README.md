@@ -5,6 +5,14 @@
 ### buffer overflow
 Getting it to overflow was very easy. I compiled it using the given flags and read the c file and saw this `char password_buffer[16];`. Obviously the input buffer has a length of 16. Interestingly, I found that to break the program, I needed to use >20 characters, instead of >16. I'm not too sure why this is.
 #### patching
+Patching the buffer overflow issue was also fairly straightforward. It involved using `strncpy()` instead of `strcpy()`, the difference being that the latter has a third argument for the maximum number of characters to be copied from the source. By setting this to the `sizeof` the buffer c string, the program can be overflow-proofed:
+```c
+strcpy(password_buffer, password);
+```
+was changed to
+```c
+strncpy(password_buffer, password, sizeof(password_buffer));
+```
 ### breaking with lldb (mac gdb)
 I wanted to try something more challenging, so I looked at the course resources and found this video:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=VroEiMOJPm8
@@ -44,7 +52,7 @@ window.alert('never gonna give you up');
 document.getElementsByTagName('body')[0].innerHTML='prankd';}">
 ```
 ### patching
-Patching the javascript was fairly simple. In my struggle to learn markdown to write this writeup, I learned about HTML escape characters. To patch the comments program, I used the javascript string `.replace()` method to replace `<` and `>`with their escape characters. I only had to modify one line:'
+Patching the javascript was fairly simple. In my struggle to learn markdown to write this writeup, I learned about HTML escape characters. To patch the comments program, I used the javascript string `.replace()` method to replace `<` and `>`with their escape characters. I only had to modify one line:
 ```javascript
 textDiv.innerHTML = document.getElementById('commentText').value;
 ```

@@ -1,0 +1,65 @@
+<!--
+    <div id="hax" style="width:10em; background-color:blue; height:10em" onclick="
+document.getElementsByTagName('body')[0].innerHTML='prankd';
+">
+
+
+</div>
+
+could not get javascript to run outside of onclick, eg
+with a script tag and a function called from an onclick.
+-->
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf8">
+</head>
+
+<body>
+    <div>
+        <label for="commentText">New Comment:</label>
+    </div>
+    <div>
+        <textarea id="commentText" cols="80" rows="10"></textarea>
+    </div>
+
+    <div>
+        <button type="button" id="addComment">Add Comment</button>
+    </div>
+
+    <div id="comments">
+        <hr />
+    </div>
+
+    <script>
+        var highlight = true;
+        document.getElementById('addComment').addEventListener(
+            'click',
+            function () {
+                var commentsElement = document.getElementById('comments');
+
+                var newDiv = document.createElement('div');
+
+                if (highlight) {
+                    newDiv.setAttribute('style', 'background-color: lightgray');
+                }
+                highlight = !highlight;
+
+                var dateDiv = document.createElement('div');
+                dateDiv.innerHTML = Date();
+                newDiv.appendChild(dateDiv);
+
+                var textDiv = document.createElement('div');
+                textDiv.innerHTML = document.getElementById('commentText').value.replace(">","&gt;").replace("<","&lt;");
+                newDiv.appendChild(textDiv);
+
+                commentsElement.appendChild(newDiv);
+                commentsElement.appendChild(document.createElement('hr'));
+            }
+        );
+    </script>
+</body>
+
+</html>

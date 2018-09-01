@@ -1,3 +1,0 @@
-i also of course did it with a normal buffer overflow, which interestingly took 21 characters instead of 16. 
-I did the llvm lldb (should be gdb ree) stuff after watching this video: https://www.youtube.com/watch?v=VroEiMOJPm8
-and wanting to try something more challenging

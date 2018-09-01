@@ -55,5 +55,6 @@ textDiv.innerHTML = document.getElementById('commentText').value.replace(">","&g
 
 Now when I input my string of injection code, it just pops up in the comments list like any other comment!
 
-
+## conclusion
+All of these exploits have potentially very dangerous repercussions, but very easy and simple fixes.
 

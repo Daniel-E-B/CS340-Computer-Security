@@ -1,6 +1,9 @@
 # ui validation
 ### break something and fix it
+## legal
+The techniques used in the following examples could be used to violate the The Computer Fraud and Abuse Act (as well as countless other laws), and to retrieve or access (in addition to many other actions) information on protected computers. See [justice.gov/sites/default/files/criminal-ccips/legacy/2015/01/14/ccmanual.pdf](https://www.justice.gov/sites/default/files/criminal-ccips/legacy/2015/01/14/ccmanual.pdf) (most relevant to user input are chapter 1, sections B - G).
 
+All of the tests conducted for the purpose of this assignment were done with prior permission, following all course guidelines, which are not mentioned in this article.
 ## c
 ### buffer overflow
 Getting it to overflow was very easy. I compiled it using the given flags and read the c file and saw this `char password_buffer[16];`. Obviously the input buffer has a length of 16. Interestingly, I found that to break the program, I needed to use >20 characters, instead of >16. I think that this is because the buffer overflow overwrites `auth_flag` to be a value greater than 1 (triggering the if statement in main to be true), and `auth_flag` is not stored immediately next to `password_buffer`, so some extra memory needs to be overflowed before `auth_flag` is overwritten. The input to the function can also be overwritten if enough characters are typed, which causes the program to seg fault.

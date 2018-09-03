@@ -6,7 +6,7 @@ The techniques used in the following examples could be used to violate the The C
 All of the tests conducted for the purpose of this assignment were done with prior permission, following all course guidelines, which are not mentioned in this article.
 ## c
 ### buffer overflow
-Getting it to overflow was very easy. I compiled it using the given flags and read the c file and saw this `char password_buffer[16];`. Obviously the input buffer has a length of 16. Interestingly, I found that to break the program, I needed to use >20 characters, instead of >16. I think that this is because the buffer overflow overwrites `auth_flag` to be a value greater than 1 (triggering the if statement in main to be true), and `auth_flag` is not stored immediately next to `password_buffer`, so some extra memory needs to be overflowed before `auth_flag` is overwritten. The input to the function can also be overwritten if enough characters are typed, which causes the program to seg fault.
+Getting it to overflow was very easy. I compiled it using the given flags and read the c file and saw this `char password_buffer[16];`. Obviously the input buffer has a length of 16. Interestingly, I found that to break the program, I needed to use >20 characters, instead of >16. I think that this is because the buffer overflow overwrites `auth_flag` to be a value greater than 1 (triggering the if statement in main to be true), and `auth_flag` is not stored immediately next to `password_buffer`, so some extra memory needs to be overflowed before `auth_flag` is overwritten. The input to the function can also be overwritten if enough characters are typed, which causes the program to seg fault (This is what I think, there are lots of things that could be overwritten that could cause seg faults, eg overwritting stack ptr/instruction ptr).
 #### patching
 Patching the buffer overflow issue was also fairly straightforward. It involved using `strncpy()` instead of `strcpy()`, the difference being that the latter has a third argument for the maximum number of characters to be copied from the source. By setting this to the `sizeof` the buffer c string, the program can be overflow-proofed:
 ```c
@@ -23,7 +23,8 @@ I wanted to try something more challenging, so I looked at the course resources 
  width="1280" height="720" border="0" /></a>
 I tried the techniques used in the video, and found two different ways of cracking the program by setting the eax register before a compare instruction. My notes for going through the assembly can be found in `c/authentication think through of dump.rtf` and `c/main think through of dump.rtf`. An rtf viewer is recommended, because without being able to see what is bolded it will be illegible.
   * In my opinion, the best way to create an authentication program that cannot be broken using this method is to do the actual authentication on a remote server, so that any user with malicious intent cannot acces the program that is running the auth checks. Of course things brings in network and encryption security concerns, but it does eliminate the issue that was exploited here.
-
+### Other ways of breaking
+The `strings` command lists all strings in a file. `strings patched.a.out` lists `password` as one of the strings. This is a much easier way of gaining acceess than lldb, and it works even with the buffer overflow patch. Of course, this could be patched by storing the password string offsite, and using a POST request to download a hash of it, etc.
 ## python
 ### injecting code
 ```python
@@ -65,6 +66,17 @@ textDiv.innerHTML = document.getElementById('commentText').value.replace(">","&g
 ```
 
 Now when I input my string of injection code, it just pops up in the comments list like any other comment!
+
+Another way of patching would be to change:
+```javascript
+textDiv.innerHTML = document.getElementById('commentText').value;
+```
+to
+```javascript
+textDiv.value = document.getElementById('commentText').value;
+```
+
+but this would not work for example in a comments section on a programming forum.
 
 ## conclusion
 All of these exploits have potentially very dangerous repercussions, but very easy and simple fixes.

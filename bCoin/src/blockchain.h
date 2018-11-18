@@ -13,7 +13,7 @@ namespace BlockChain {
     class Block {
     public:
         uint64_t blockNo;
-        uint32_t nonce;
+        unsigned int nonce;
         long long int timestamp; // µseconds since epoch
         std::string data;
         std::string prevHash;

@@ -4,7 +4,7 @@
 int main() {
     BlockChain::Chain blockChain("Genesis");
     // mine blocks
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 15; ++i) {
         if (blockChain.mine(std::to_string(i))) {
             std::cout << "block mined" << std::endl;
         } else {

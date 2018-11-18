@@ -22,10 +22,8 @@ BlockChain::Block::Block(uint64_t prevBlockNo, std::string prevHash_, std::strin
     nonce = 0;
     difficulty = diff;
 
-    while (!valid()) {
-        if (nonce < pow(2.0, 32.0)) {
-            ++nonce;
-        }
+    while (!valid() && nonce < 4294967295) {
+        ++nonce;
     }
 }
 
@@ -44,19 +42,21 @@ BlockChain::Chain::Chain(std::string genesisData) {
 
 bool BlockChain::Chain::mine(std::string data) {
     BlockChain::Block prevBlock = blocks[blocks.size() - 1];
-    // simple calculation of mining difficulty for ~1min / blk (1440/day):
+    // simple calculation of mining difficulty for ~30 sec / blk (2880/day):
     int diff = prevBlock.difficulty;
     if (blocks.size() >= 2) {
         long long int timeDiff = prevBlock.timestamp - blocks[blocks.size() - 2].timestamp;
-        if (timeDiff < 55000000) {
-            // increase by 1 if last blk took < 55 secs
+        std::cout << "tdiff = " << timeDiff << std::endl;
+        // for some reason the time values are 1 order of magnitude off?
+        if (timeDiff < 2500000) {
+            // increase by 1 if last blk took < 25 secs
             ++diff;
-        } else if (timeDiff > 65000000) {
-            // decrease by 1 if last blk took > 65 secs
+        } else if (timeDiff > 3500000) {
+            // decrease by 1 if last blk took > 35 secs
             --diff;
         }
     }
-    std::cout<<"diff = "<<diff<<std::endl;
+    std::cout << "diff = " << diff << std::endl;
     BlockChain::Block B(prevBlock.blockNo, prevBlock.hash(), data, diff);
 
     if (B.valid()) {

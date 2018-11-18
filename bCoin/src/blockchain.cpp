@@ -17,10 +17,10 @@ BlockChain::Block::Block(uint64_t prevBlockNo, std::string prevHash_, std::strin
     blockNo = prevBlockNo + 1;
     data = data_;
     prevHash = prevHash_;
-    timestamp = std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::system_clock::now().time_since_epoch()).count();
     nonce = 0;
     difficulty = diff;
+    timestamp = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
 
     while (!valid() && nonce < 4294967295) {
         ++nonce;
@@ -48,10 +48,10 @@ bool BlockChain::Chain::mine(std::string data) {
         long long int timeDiff = prevBlock.timestamp - blocks[blocks.size() - 2].timestamp;
         std::cout << "tdiff = " << timeDiff << std::endl;
         // for some reason the time values are 1 order of magnitude off?
-        if (timeDiff < 2500000) {
+        if (timeDiff < 25000000) {
             // increase by 1 if last blk took < 25 secs
             ++diff;
-        } else if (timeDiff > 3500000) {
+        } else if (timeDiff > 35000000) {
             // decrease by 1 if last blk took > 35 secs
             --diff;
         }

@@ -3,42 +3,34 @@
 #include <string>
 #include "picosha2.h"
 
+/*
+ * TODO: set mining difficulty in Chain.mine, according to time differential between last several blks:
+ *      for now, to keep it simple, if the time between the last 2 < 0.5 min, incr diff, if > 1.5, decr diff
+*/
+
 namespace BlockChain {
 
     class Block {
     public:
-        int blockNo;
+        uint64_t blockNo;
         uint32_t nonce;
         long long int timestamp; // µseconds since epoch
         std::string data;
         std::string prevHash;
-        std::string hash;
-        int difficulty; // number of b's at the beginning of hash. Should be set according to time between last and current block
+        int difficulty; // number of b's at the beginning of hash.
 
-        Block(int prevBlockNo, std::string prevHash_, std::string data_);
+        Block(uint64_t prevBlockNo, std::string prevHash_, std::string data_, int diff);
+        bool valid();
+        std::string hash();
 
-    private:
-        bool valid() {
-            for (int i = 0; i < difficulty; ++i) {
-                if (hash[i] != 'b') {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        std::string computeHash() {
-            std::string compoundData =
-                    std::to_string(nonce) + std::to_string(timestamp) + data + prevHash + std::to_string(blockNo);
-            std::vector<unsigned char> hasher(picosha2::k_digest_size);
-            picosha2::hash256(compoundData.begin(), compoundData.end(), hasher.begin(), hasher.end());
-
-            return picosha2::bytes_to_hex_string(hasher.begin(), hasher.end());
-        }
     };
 
     class Chain {
     public:
         std::vector<Block> blocks;
+
+        Chain(std::string genesisData);
+
+        bool mine(std::string data); // Simple mining function. Returns true if valid block has been added.
     };
 }

@@ -47,15 +47,16 @@ bool BlockChain::Chain::mine(std::string data) {
     // simple calculation of mining difficulty for ~1min / blk (1440/day):
     int diff = prevBlock.difficulty;
     if (blocks.size() >= 2) {
-        long long int timeDiff = diff - blocks[blocks.size() - 2].timestamp;
-        if (timeDiff < 30000000) {
-            // increase by 1 if last blk took < 30 secs
+        long long int timeDiff = prevBlock.timestamp - blocks[blocks.size() - 2].timestamp;
+        if (timeDiff < 55000000) {
+            // increase by 1 if last blk took < 55 secs
             ++diff;
-        } else if (timeDiff > 90000000) {
-            // decrease by 1 if last blk took > 90 secs
+        } else if (timeDiff > 65000000) {
+            // decrease by 1 if last blk took > 65 secs
             --diff;
         }
     }
+    std::cout<<"diff = "<<diff<<std::endl;
     BlockChain::Block B(prevBlock.blockNo, prevBlock.hash(), data, diff);
 
     if (B.valid()) {

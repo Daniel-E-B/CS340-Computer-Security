@@ -19,10 +19,18 @@ namespace BlockChain {
         std::string prevHash;
         int difficulty; // number of b's at the beginning of hash.
 
-        Block(uint64_t prevBlockNo, std::string prevHash_, std::string data_, int diff);
+        Block(uint64_t prevBlockNo, std::string prevHash_, std::string data_, int diff, int numThreads);
+
         bool valid();
+
         std::string hash();
 
+        void mine(int numThreads, unsigned int startingNonce, std::mutex &mut, bool &stop);
+
+    private:
+        bool valid(unsigned int nonce_);
+
+        std::string hash(unsigned int nonce_);
     };
 
     class Chain {

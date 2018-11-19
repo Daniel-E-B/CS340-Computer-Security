@@ -1,4 +1,5 @@
 #include <string>
+#include <mutex>
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -60,12 +61,6 @@ BlockChain::Block::Block(uint64_t prevBlockNo, std::string prevHash_, std::strin
     difficulty = diff;
     timestamp = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
-
-    /*
-     * TODO: make the while loop below a function, given starting nonce and numthreads
-     * have numthreads be an arg for blk
-     * make threading happen here
-    */
 
     std::mutex m;
     bool stop = false;

@@ -1,12 +1,8 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <mutex>
 #include "picosha2.h"
-
-/*
- * TODO: set mining difficulty in Chain.mine, according to time differential between last several blks:
- *      for now, to keep it simple, if the time between the last 2 < 0.5 min, incr diff, if > 1.5, decr diff
-*/
 
 namespace BlockChain {
 

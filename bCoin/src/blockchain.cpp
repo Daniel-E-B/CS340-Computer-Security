@@ -90,8 +90,10 @@ bool BlockChain::Chain::mine(std::string data) {
     BlockChain::Block prevBlock = blocks[blocks.size() - 1];
     // simple calculation of mining difficulty for ~30 sec / blk (2880/day):
     int diff = prevBlock.difficulty;
-    if (blocks.size() >= 2) {
-        long long int timeDiff = prevBlock.timestamp - blocks[blocks.size() - 2].timestamp;
+    long long int currentTime = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    if (blocks.size() > 0) {
+        long long int timeDiff = currentTime - prevBlock.timestamp;
         std::cout << "tdiff = " << timeDiff << std::endl;
         // for some reason the time values are 1 order of magnitude off?
         if (timeDiff < 25000000) {

@@ -16,8 +16,9 @@ bool BlockChain::Block::valid() {
 }
 
 bool BlockChain::Block::valid(unsigned int nonce_) {
+    std::string hashCpy = hash(nonce_); // for efficiency?, so its not recomputed every time thru l00p
     for (int i = 0; i < difficulty; ++i) {
-        if (hash(nonce_)[i] != 'b') {
+        if (hashCpy[i] != 'b') {
             return false;
         }
     }
